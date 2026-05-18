@@ -45,6 +45,31 @@ Explore Robus Incentives Group Opened Problems. Most relevant for EPF are tagged
 
 Client teams will submit cohort 7 project ideas via pull request to this document. If you represent a client or research team and want to propose a project, open a PR adding a section here or reach out to the cohort organizers on Discord.
 
+### Reth: Partial Statefulness and State Expiry Prototype
+
+By Reth team
+
+Ethereum clients currently assume that a full node keeps the full live execution state locally. As state grows, it is useful to explore client designs where a node can retain only part of the state, make unavailable state explicit, and still remain useful for selected workloads such as transaction validation, RPC serving for tracked contracts, or research devnets.
+
+This project would explore partial statefulness in Reth. The goal is a research prototype that lets a Reth node store account-level state while selectively retaining storage and bytecode for configured contracts or state ranges. The prototype should make missing state visible at sync, execution, txpool, and RPC boundaries instead of silently treating unavailable storage or code as empty.
+
+The work could include:
+
+- mapping partial-state assumptions onto Reth's storage, sync, execution, txpool, and RPC architecture,
+- prototyping a mode that syncs and stores all accounts but skips storage and bytecode for untracked contracts,
+- defining clear behavior for RPC methods such as `eth_getStorageAt`, `eth_getCode`, `eth_call`, and `eth_estimateGas` when requested state is unavailable,
+- exploring how retained state can be updated, checked, and pruned over time,
+- measuring disk usage, sync behavior, and performance tradeoffs,
+- documenting which parts are client-local engineering choices and which parts would require protocol support.
+
+This project is a good fit for fellows interested in Ethereum state growth, execution client storage, sync, RPC behavior, and protocol research in a production-grade Rust client.
+
+Related work:
+
+- Validity-Only Partial Statelessness research post: https://ethresear.ch/t/a-pragmatic-path-towards-validity-only-partial-statelessness-vops/22236
+- Geth partial-state prototype: https://github.com/ethereum/go-ethereum/pull/33764
+- EIP-7928 Block-Level Access Lists: https://eips.ethereum.org/EIPS/eip-7928
+
 ### Erigon: aglean — Lean client permutations and stability
 
 By Giulio Rebuffo / Erigon
@@ -119,11 +144,23 @@ By Saulius Grigaitis
 
 EIP-7805 introduces FOCIL, a promising new feature for Ethereum. While several teams already maintain early implementations, dedicated testnets are expected to launch soon. Grandine aims to develop a robust and production-oriented FOCIL implementation, ensure compatibility with the broader ecosystem, and actively participate in upcoming testnet experiments. This work will contribute to validating and refining the proposal through real-world deployment and interoperability testing.
 
+### Grandine: Optional Execution Proofs (EIP-8025)
+
+By Saulius Grigaitis
+
+Option Execution Proofs [EIP-8025](https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8025) another proposal that is a strong candidate for inclusion in upcoming Ethereum hard forks.
+
 ### Grandine: Disk Usage Optimization for State Storage
 
 By Saulius Grigaitis
 
 Grandine currently stores full Ethereum states every 32 epochs, resulting in redundant on-disk data and slower state reconstruction. In memory, Grandine already leverages structural sharing to eliminate overlapping data efficiently. This project aims to extend similar deduplication and delta-encoding techniques to persistent storage, significantly reducing disk usage while accelerating state transitions and historical state lookups. The work will also explore alternative database backends and storage architectures to further improve performance and scalability.
+
+### Grandine: Syncing from Non-Finalized Checkpoints
+
+By Saulius Grigaitis
+
+Grandine currently supports syncing only from finalized checkpoints. During extended periods of non-finality, it would be beneficial to support syncing from non-finalized checkpoints near the current wall-clock slot. The implementation will focus primarily on refactoring components that currently assume the client can only initialize from finalized checkpoints.
 
 ### Grandine: Attestation Packer
 
