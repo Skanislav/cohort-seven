@@ -11,6 +11,7 @@ Phase one is the very beginning of the cohort. The first few weeks are dedicated
 
 | Name/GH                                         | Week 0                                                                                              | Week 1 | Week 2 |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------ | ------ |
+| [Abhivansh](https://github.com/akronim26)       | [Update 0](https://hackmd.io/@astaxxoo/ByJ3Fhtbzg)                                                  |        |        |
 | [Arsh](https://github.com/ArshLabs)             | [Update 0](https://hackmd.io/@arshlabs/HJtE30wWGg)                                                  |        |        |
 | [Ayush](https://github.com/0xAysh/)             | [ Update 0](https://hackmd.io/@0xAysh/EPF7-week-0-update)                                           |        |        |
 | [Bankat](https://github.com/mananuf/)           | [Update 0](https://hackmd.io/@manbankat/ryn-CDrbfx)                                                 |        |        |
@@ -24,6 +25,7 @@ Phase one is the very beginning of the cohort. The first few weeks are dedicated
 | [Rahul](https://github.com/rahulbarmann/)       | [Update 0](https://hackmd.io/@8t0zzURJSC6IX5BOuOiGqQ/Sk0vwhHZfg)                                    |        |        |
 | [Sagar](https://www.github.com/SoarinSkySagar)  | [Update 0](https://hackmd.io/@5d9IS104QYmhm-pr1ypNJg/Bk3xoWQbGg)                                    |        |        |
 | [Sameer](https://github.com/SamAg19)            | [Update 0](https://hackmd.io/@samag19/BkqGmuHbzl)                                                   |        |        |
+| [Vansh](https://github.com/vanshsahay)          | [Update 0](https://hackmd.io/@vanshsahay/ByEF5juZMl)                                                 |        |        |
 | [Zidan](https://github.com/mzf11125)            | [Update 0](https://hackmd.io/@MpYoLwpETrKvUBs2PpmPxA/BJC-dHOZze)                                    |        |        |
 
 
