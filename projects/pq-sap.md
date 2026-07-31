@@ -37,6 +37,7 @@ The work divides into one research question and one engineering deliverable.
 * A draft spec for the new ERC-5564 scheme ID: meta-address encoding, announcement format (ML-KEM ciphertext as the ephemeral key, plus view tag), and the chosen key derivation. There's a working draft already, along with a running log of the design decisions; it freezes after the security analysis and a round of community review.
 * Test vectors as versioned JSON in a public repo, including ones that must fail: wrong view tag, malformed ciphertext, wrong recipient. Any implementation can check itself against them without touching our code. This one's done. The v0 vectors are in the repo, deterministic, with the negative cases, and an independent TypeScript port already matches them byte for byte.
 * A reference library: scanning, viewing keys (can see payments, can't spend), and proof of possession, meaning you sign a challenge with the derived key to show you control the address, no transaction needed. Done in Python, with a TypeScript scanning client alongside it. The crypto primitives come from spec-faithful pure-Python implementations (kyber-py, dilithium-py) for the executable spec, cross-checked against the audited liboqs; we only write the protocol layer on top. There's also a separate Noir prototype for the zero-knowledge ownership version of the proof.
+* Security analysis in pq is quite complicated topic and prooving that something is safe now does not meant that no new attack would be discovered in NIST approved list. we will try to make the best effort by relying on Lean4 proofs and existiing academic research.
 
 * Benchmarks as a runnable harness. We reproduced the 2025/112 scan experiment from 0x3327/pq-sap (about 23.8 µs per announcement at 80k, the number behind the ~66.8%-vs-Curvy figure) and ran our scheme against a DKSAP baseline on the same machine. The Curvy run and the L2 pricing are still to do. The cost report is partly there: an ML-KEM-768 ciphertext is 1,088 bytes where today's ephemeral key is 33, and we've measured the on-chain side (account deployment around 6.2M gas, roughly 8.2M per ML-DSA verification, ~22 kB public key). What's left is writing it up with mainnet and L2 gas at current schedules.
 
@@ -100,11 +101,11 @@ Worth saying up front: it’s 2026, code is cheap. A lot of the engineering alre
 
 * v0 spec + conformance vectors — done, not frozen yet. The executable Python spec and the versioned JSON vectors with negatives are in the repo. What remains is a review round with mentors and the community, then the freeze. Everything after builds against the frozen spec, same as before.
 
-* Security analysis — ~4–5 weeks, and this is where the real remaining time goes. Unlinkability across payments, sender can't derive the spending key, viewing/spending separation, the widened-z distribution at β' = τ·2η (a new item that came out of building A), parameter analysis, and why the rejected construction lost.
+* Security analysis — ~4–5 weeks, Unlinkability across payments, sender can't derive the spending key, viewing/spending separation, the widened-z distribution at β' = τ·2η, parameter analysis. Formal verification with lean4 using vcvio for algebraic and game-based testing.
 
-* Reference library — done in v0, Python plus a TypeScript scanning client, built against the vectors. Remaining work is polish and keeping it in sync as the spec freezes. Interleaved with the analysis, as planned.
+* Reference library — done in v0, Python plus a TypeScript scanning client, built against the vectors. Remaining work is polish and keeping it in sync as the spec freezes. 
 
-* Benchmarks + cost report — ~2 weeks. The scan benchmarks and the on-chain gas numbers are measured already. What's left is the Curvy baseline run, L2 pricing, and writing the report up.
+* Benchmarks + cost report — ~2 weeks. The scan benchmarks and the on-chain gas numbers are measured already. What's left is L2 pricing, mainnet, and writing the report up.
 
 * ERC draft + wrap-up — ~2 weeks. PR to ethereum/ERCs, conformance run, final report and Devcon presentation.
 
@@ -124,16 +125,14 @@ A few things landed ahead of the plan too: the Lean proofs, the Noir zero-knowle
 
 ## Goal of the project
 
-Success means these five things exist publicly:
+Success means these things exist publicly:
 
 1. An ERC draft with a registered ERC-5564 scheme ID for the post-quantum scheme.
 2. Conformance vectors, negative vectors included, that any independent implementation can validate against.
 3. A reference library that passes them: sender flow, scanning, viewing keys, proof of possession.
-4. Lean4 components to verify correctness of algebraic assumptions
-5. The security analysis of the chosen derivation, with the rejection rationale for the alternative.
-6. Benchmarks and the cost report against the elliptic-curve and lattice baselines.
+4. The security analysis of the chosen derivation, including lean4 proofs with vcvio with the rejection rationale for the alternative. 
+5. Benchmarks and the cost report against the elliptic-curve and lattice baselines.
 
-Pretty
 
 ## Collaborators
 
@@ -159,6 +158,7 @@ Skas
 * Mikić, Srbakoski — *Elliptic Curve Pairing Stealth Address Protocols* (Curvy): [https://arxiv.org/abs/2312.12131](https://arxiv.org/abs/2312.12131)
 * Buterin — _An incomplete guide to stealth addresses_: [https://vitalik.eth.limo/general/2023/01/20/stealth.html](https://vitalik.eth.limo/general/2023/01/20/stealth.html)
 * *Native UTXOs on Ethereum* (ethresear.ch, July 2026): [https://ethresear.ch/t/native-utxos-on-ethereum/25368](https://ethresear.ch/t/native-utxos-on-ethereum/25368)
+* *VCVio: Verified Cryptography in Lean via Oracle Effects and Handlers* ePrint 2026/899: [https://eprint.iacr.org/2026/899.pdf](https://eprint.iacr.org/2026/899.pdf)
 
 **Standards and specifications**
 
